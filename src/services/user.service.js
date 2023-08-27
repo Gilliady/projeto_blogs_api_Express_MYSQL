@@ -2,6 +2,11 @@ const { generateToken } = require('../auth/authenticate');
 const { User } = require('../models');
 const getPayload = require('../utils/getPayload');
 
+const getAll = async () => {
+  const users = await User.findAll({ attributes: { exclude: ['password'] } });
+  return { status: 'SUCCESS', data: users };
+};
+
 const create = async (userData) => {
   const { email, password, image, displayName } = userData;
   const userExistence = await User.findOne({ where: { email } });
@@ -18,5 +23,6 @@ const create = async (userData) => {
 };
 
 module.exports = {
+  getAll,
   create,
 };
