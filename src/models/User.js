@@ -30,11 +30,11 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
     underscored: true,
   });
-  /* User.associate = ({ Post }) => {
-    User.hasMany(Post, {
+  User.associate = ({ BlogPost }) => {
+    User.hasMany(BlogPost, {
       foreignKey: 'userId',
       as: 'BlogPost',
     });
-  }; */
+  };
   return User;
 }
