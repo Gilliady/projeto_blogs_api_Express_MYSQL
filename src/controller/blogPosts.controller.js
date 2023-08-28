@@ -23,8 +23,8 @@ const update = async (req, res) => {
 const deletePost = async (req, res) => {
   const { id } = req.params;
   const { id: userId } = req.user;
-  const { status } = await blogPostsService.deletePost(id, userId);
-  return res.status(mapStatusHttp(status)).end();
+  const { status, data } = await blogPostsService.deletePost(id, userId);
+  return res.status(mapStatusHttp(status)).json(data);
 };
 
 const create = async (req, res) => {
