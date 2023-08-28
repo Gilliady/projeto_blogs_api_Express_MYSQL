@@ -33,8 +33,14 @@ const create = async (userData) => {
   return { status: 'CREATED', data: { token } };
 };
 
+const deleteMe = async (id) => {
+  await User.destroy({ where: { id } });
+  return { status: 'NO_CONTENT' };
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  deleteMe,
 };

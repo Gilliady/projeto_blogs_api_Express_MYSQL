@@ -5,6 +5,7 @@ const { validateToken, validateNewBlogPost } = require('../middlewares');
 
 const blogPostRouter = express.Router();
 blogPostRouter.get('/', validateToken, blogPostsController.getAll);
+blogPostRouter.get('/search?', validateToken, blogPostsController.search);
 blogPostRouter.get('/:id', validateToken, blogPostsController.getById);
 blogPostRouter.put('/:id', validateToken, blogPostsController.update);
 blogPostRouter.delete('/:id', validateToken, blogPostsController.deletePost);

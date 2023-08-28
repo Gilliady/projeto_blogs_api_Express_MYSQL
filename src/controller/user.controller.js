@@ -17,8 +17,15 @@ const create = async (req, res) => {
   return res.status(mapStatusHTTP(status)).json(data);
 };
 
+const deleteMe = async (req, res) => {
+  const { id: userId } = req.user;
+  const { status } = await userService.deleteMe(userId);
+  return res.status(mapStatusHTTP(status)).end();
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  deleteMe,
 };
