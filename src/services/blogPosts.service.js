@@ -29,11 +29,10 @@ const update = async (id, title, content, userId) => {
     return { status: 'BAD_REQUEST', data: { message: 'Some required fields are missing' } };
   }
   const post = await BlogPost.findOne({ where: { id } });
-  console.log('POST: ', post);
+  if (!post) return { status: 'NOT_FOUND', data: { message: 'Post does not exist' } };
   if (post.userId !== userId) {
     return ({ status: 'UNAUTHORIZED', data: { message: 'Unauthorized user' } });
   }
-  if (!post) return { status: 'NOT_FOUND', data: { message: 'Post does not exist' } };
   await BlogPost.update({ title, content }, { where: { id } });
   const updatedPost = await BlogPost.findOne({
     where: { id },
@@ -43,6 +42,16 @@ const update = async (id, title, content, userId) => {
     ],
   });
   return { status: 'SUCCESS', data: updatedPost };
+};
+
+const deletePost = async (id, userId) => {
+  const post = await BlogPost.findOne({ where: { id } });
+  if (!post) return { status: 'NOT_FOUND', data: { message: 'Post does not exist' } };
+  if (post.userId !== userId) {
+    return ({ status: 'UNAUTHORIZED', data: { message: 'Unauthorized user' } });
+  }
+  await BlogPost.destroy({ where: { id } });
+  return { status: 'NO_CONTENT' };
 };
 
 const create = async (title, content, categoryIds, userId) => {
@@ -68,4 +77,5 @@ module.exports = {
   getAll,
   getById,
   update,
+  deletePost,
 };
