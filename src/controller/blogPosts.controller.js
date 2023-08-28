@@ -1,6 +1,11 @@
 const mapStatusHttp = require('../utils/mapStatusHTTP');
 const { blogPostsService } = require('../services');
 
+const getAll = async (req, res) => {
+  const { status, data } = await blogPostsService.getAll();
+  return res.status(mapStatusHttp(status)).json(data);
+};
+
 const create = async (req, res) => {
   const { title, content, categoryIds } = req.body;
   const { id } = req.user;
@@ -10,4 +15,5 @@ const create = async (req, res) => {
 
 module.exports = {
   create,
+  getAll,
 };

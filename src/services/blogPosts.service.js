@@ -1,4 +1,14 @@
-const { BlogPost, PostCategory, Category, sequelize } = require('../models');
+const { User, BlogPost, PostCategory, Category, sequelize } = require('../models');
+
+const getAll = async () => {
+  const posts = await BlogPost.findAll({
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  return { status: 'SUCCESS', data: posts };
+};
 
 const create = async (title, content, categoryIds, userId) => {
   const categoryExists = await Category.findAll({ where: { id: categoryIds } });
@@ -20,4 +30,5 @@ const create = async (title, content, categoryIds, userId) => {
 
 module.exports = {
   create,
+  getAll,
 };
